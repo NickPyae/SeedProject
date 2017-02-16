@@ -1,4 +1,4 @@
-For Angular 2 Unit Testing and End to End Testing,
+Building Angular 2 application with Webpack,
 
 1) Navigate into the folder (in the command line / terminal)
 2) Run "npm install" to install all required dependencies.
@@ -6,7 +6,12 @@ For Angular 2 Unit Testing and End to End Testing,
 4) Run "npm start" in a new command line / terminal window => Keep this process running as well, it's your NodeJS server. 
 5) Run "npm run build:prod" for production. All Angular 2 files will be compiled using Ahead-of-Time.
 
-For Node.js Unit Testing,
+Unit Testing and End to End Testing Angular 2 application,
+
+1) Run "ng test" to unit test.
+2) Open "http://localhost:4200" in the browser first and run "ng e2e" to do end to end testing.
+
+Unit Testing Node.js REST endpoints,
 
 1) Run "npm run mocha".
 
