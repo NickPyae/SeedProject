@@ -1,23 +1,46 @@
-var supertest = require('supertest');
-var should = require('should');
+let User = require('../models/user');
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+var server = require('../server');
+let should = chai.should();
 
-// This agent refers to PORT where program is runninng.
-var server = supertest.agent('http://localhost:4200/');
+chai.use(chaiHttp);
 
-// UNIT test begin
-
-describe("Server",function(){
-  // #1 should return home page
-
-  it('should return home page', function(done){
-
-    // calling home page api
-    server
-    .get('/')
-    .expect('Content-type', 'text/html')
-    .end(function(err,res){
-        res.status.should.equal(200);
-        done();
+describe('User', () => {
+    beforeEach((done) => {
+        User.remove({}, (err) => {
+            done();
+        });
     });
-  });
+
+    describe('/POST signup', () => {
+      it('should POST user data', (done) => {
+        let user = {
+            userName: 'ppk',
+            password: 'ppk'
+        };
+
+        chai.request(server).post('/user/signup').send(user).end((err, res) => {
+            res.should.have.status(201);
+            res.body.should.be.a('object');
+            res.body.should.have.property('user');
+            done();
+        });
+      });
+
+      it('should not POST user data if they are empty', (done) => {
+        let mockUser = {
+            userName: '',
+            password: ''
+        };
+
+        chai.request(server).post('/user/signup').send(mockUser).end((err, res) => {
+            res.should.have.status(500);
+            res.body.should.be.a('object');
+            res.body.should.have.property('error');
+            done();
+        });
+      });
+    });
+
 });

@@ -19,8 +19,8 @@
         <li><a href="#"><span class="glyphicon glyphicon-phone"></span> Contact</a></li>
       </ul><!--nav navbar-nav close-->
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target="#signup-modal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#" data-toggle="modal" data-target="#login-modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a (click)="showSignupModal()"><span class="glyphicon glyphicon-user"></span> Sign up</a></li>
+        <li><a (click)="showLoginModal()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul><!--navbar-right close-->
     </div><!--collapse navbar-collapse drop_menu close-->
   </div><!--container-fluid close-->
@@ -29,14 +29,16 @@
 <br>
 <br>
 
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="backdrop"  [ngStyle]="{'display': loginModalDisplay}"></div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': loginModalDisplay}">
           <div class="modal-dialog">
     			<div class="log-section">
 					<h1>Login to Your Account</h1><br>
-				  <form>
-					<input type="text" name="user" placeholder="Username">
-					<input type="password" name="pass" placeholder="Password">
+				  <form #loginForm="ngForm" (ngSubmit)="loginToAccount(loginForm)">
+					<input type="text" name="userName" placeholder="Username" ngModel required>
+					<input type="password" name="pass" placeholder="Password" ngModel required>
 					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+          <input type="button" name="login" class="login loginmodal-cancel" value="Cancel" (click)="cancel()">
 				  </form>
 					
 				  <div class="login-help">
@@ -46,19 +48,19 @@
 			</div>
 		  </div>
         
-          
-<div class="modal fade" id="signup-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+
+<div class="backdrop" [ngStyle]="{'display': signupModalDisplay}"></div>       
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': signupModalDisplay}">
           <div class="modal-dialog">
     			<div class="log-section">
 					<h1>Sign up for New Account</h1><br>
-				  <form>
-    				<input type="text" name="name" placeholder="First Name">
-                    <input type="text" name="name" placeholder="Last Name">
-					<input type="password" name="pass" placeholder="Create Password">
-                    <input type="password" name="pass" placeholder="Confirm Password">
-					<input type="submit" name="signin" class="login loginmodal-submit" value="Sign Up">
+				  <form #signupForm="ngForm" (ngSubmit)="signup(signupForm)">
+          <input type="text" name="userName" placeholder="Username" ngModel required>
+					<input type="password" name="createPass" placeholder="Password" ngModel required>
+          <input type="password" name="confirmPass" placeholder="Confirm Password" ngModel required>
+					<input type="submit" name="signin" class="login loginmodal-submit" value="Sign up">
+          <input type="button" name="signin" class="login loginmodal-cancel" value="Cancel" (click)="cancel()">
 				  </form>
-					
 				  <div class="login-help">
 					 <a href="#">Allready Have an Account</a>
 				  </div>
@@ -69,6 +71,6 @@
 <div class="container">
   <div class="jumbotron">
     <h1>Fullstack Web Application</h1> 
-    <p>MEAN stack starter project using MongoDB, Express, Node.js. Angular 2. Frontend, backend unit testing and integration testing tools such as Karma, Jasmine, Protractor, Mocha, Should, Supertest and Webpack build tool are integrated.</p> 
+    <p>MEAN stack starter project using MongoDB, Express, Node.js. Angular 2. Frontend, backend unit testing and integration testing tools such as Karma, Jasmine, Protractor, Mocha, Chai and Webpack build tool are integrated.</p> 
   </div>
 </div><!--container close-->
