@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, NgForm } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { AuthService } from './auth.service';
+import { HttpModule } from '@angular/http';
 
 describe('AppComponent', () => {
   let comp:    AppComponent;
@@ -17,7 +19,8 @@ describe('AppComponent', () => {
       declarations: [ 
         AppComponent
       ],
-       imports: [ RouterTestingModule, FormsModule ]
+       imports: [ RouterTestingModule, FormsModule, HttpModule ],
+       providers: [ AuthService ]
     });
 
     TestBed.compileComponents();

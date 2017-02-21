@@ -10,6 +10,7 @@ var User = require('../models/user');
 router.post('/signup', function(req, res, next) {
    req.checkBody('userName', 'Username is required').notEmpty();
    req.checkBody('password', 'Password is required').notEmpty();
+   req.checkBody('email', 'Email is required').notEmpty();
 
    req.getValidationResult().then(function(result) {
         var errors = result.array();
@@ -45,7 +46,7 @@ router.post('/signup', function(req, res, next) {
 
 // authenticate the user and get jwt
 router.post('/authenticate', function(req, res, next) {
-    User.findOne({email: req.body.email}, function(err, user) {
+    User.findOne({userName: req.body.userName}, function(err, user) {
         if(err) {
             return res.status(500).json({
                 message: 'An error occured',
