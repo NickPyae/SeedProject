@@ -65,7 +65,7 @@ router.post('/authenticate', function(req, res, next) {
                 if(isMatch && !err) {
                     // create token
                     var token = jwt.sign(user, config.secret, {
-                        expiresIn: 10080 // in seconds
+                        expiresIn: 2592000 // 1 month in seconds 
                     });
 
                     return res.status(200).json({
@@ -83,11 +83,35 @@ router.post('/authenticate', function(req, res, next) {
     });
 });
 
-	
 // protect dashboard route with jwt
-router.get('/dashboard', passport.authenticate('jwt', { session: false }), 
-function(req, res, next) {
-  res.send(`It works. UserID is ${req.user._id}.`);
+router.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res, next) {
+    res.status(200).json({
+        message: 'Authorized',
+        userId: req.user._id
+    });
 });
+
+// delete user
+router.delete('/delete/:userId', function(req, res, next) {
+    User.findByIdAndRemove(req.params.userId, function(err, user) {
+        if(err) {
+            return res.status(500).json({
+                message: 'An error occured',
+                error: err
+            });
+        }
+
+        if(!user) {
+            return res.status(500).json({
+                message: 'User not found',
+            });
+        }
+
+        return res.status(200).json({
+                message: 'User successfully deleted',
+                userId: user._id
+        });
+    });   
+})
 
 module.exports = router;

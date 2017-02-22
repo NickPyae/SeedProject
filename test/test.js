@@ -7,14 +7,8 @@ var should = chai.should();
 chai.use(chaiHttp);
 
 describe('User', function() {
-    beforeEach(function(done) {
-         User.remove({}, function(err) {
-             done();
-         });
-    });
-
     describe('POST /user/signup', function() {
-      xit('should POST user data', function() {
+      it('should POST user data', function(done) {
         var user = {
             userName: 'pyaephyokyaw009',
             email: 'pyaephyokyaw009@gmail.com',
@@ -29,7 +23,7 @@ describe('User', function() {
         });
       });
 
-      xit('should not POST user data if userName and password are empty', function(done) {
+      it('should not POST user data if userName and password are empty', function(done) {
         var mockUser = {
             userName: '',
             password: ''
@@ -59,7 +53,7 @@ describe('User', function() {
     });
 
     describe('POST /user/authenticate', function() {
-        xit('should be authenticated if userName and password are correct', function(done) {
+        it('should be authenticated if userName and password are correct', function(done) {
             var mockUser = {
                 userName: 'pyaephyokyaw009',
                 password: 'ppK12345'
@@ -82,7 +76,7 @@ describe('User', function() {
             chai.request(server).post('/user/authenticate').send(mockUser).end(function(err, res) {
                 res.should.have.status(500);
                 res.body.should.be.a('object');
-                res.should.have.a.property('error');
+                res.body.should.have.a.property('error');
                 done();
             });
         });
@@ -96,7 +90,7 @@ describe('User', function() {
             chai.request(server).post('/user/authenticate').send(mockUser).end(function(err, res) {
                 res.should.have.status(500);
                 res.body.should.be.a('object');
-                res.should.have.a.property('error');
+                res.body.should.have.a.property('error');
                 done();
             });
         });
@@ -120,6 +114,35 @@ describe('User', function() {
             });
 
         });
+    });
+
+    describe('DELETE /user/:userId', function() {
+        xit('should be able to delete user if userId is correct', function(done) {
+            var mockUserId = '58ad2d8fed60fa28f6631971';
+            chai.request(server).delete('/user/delete/' + mockUserId).end(function(err, res) {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.a.property('userId');
+                done();
+            });
+        });
+
+         xit('should not be able to delete user if userId is not correct', function(done) {
+            var mockUserId = '58ad2d8fed6';
+            chai.request(server).delete('/user/delete/' + mockUserId).end(function(err, res) {
+                res.should.have.status(500);
+                res.body.should.be.a('object');
+                res.body.should.have.a.property('error');
+                done();
+            });
+        });
+    });
+
+     // remove the user after all test suites
+     after(function(done) {
+         User.remove({}, function(err) {
+             done();
+         });
     });
 
 });
